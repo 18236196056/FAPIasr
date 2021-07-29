@@ -19,14 +19,10 @@ async def file_upload(file: UploadFile = File(...)):
             f.write(res)
             #f 这个文件是"message": "'_io.BufferedWriter' object has no attribute 'file'",
         #****************  调接口对音频进行识别
-
-
-        # 识别本地文件
         resfile = client.asr(get_file_content(f"./video/{file.filename}"), 'wav', 16000, {
             'dev_pid': 1537,
         })
         # print(resfile)  # {'corpus_no': '6988818717101064966', 'err_msg': 'success.', 'err_no': 0, 'result': ['北京科技馆。'], 'sn': '621839036111627211160'}
-        # print(type(resfile)) #<class 'dict'>
         videoText = resfile.get("result")[0]
         print(videoText)
         if len(videoText)!=0:
@@ -56,7 +52,6 @@ startMin = time.localtime(time.time()).tm_min
 async def Uploaduser(name:str=Form(...),password:str=Form(...),comment:str=Form(...)):
     # startMin = time.localtime(time.time()).tm_min
     try:
-
             # for a in range(0,20):
             #     os.system('cls')
             #     time.sleep(1)
@@ -78,7 +73,6 @@ async def Uploaduser(name:str=Form(...),password:str=Form(...),comment:str=Form(
                 commit()
     except Exception as e:
         return {"Error":str(e)}
-
 # 登录：验证用户输入的的信息是否在mysql中
 @app.post('/UserLogin')
 async def findUser(name:str=Form(...),password:str=Form(...),comment:str=Form(...)):
@@ -98,5 +92,3 @@ async def findUser(name:str=Form(...),password:str=Form(...),comment:str=Form(..
             commit()
     except Exception as e:
         return {"error:",str(e)}
-# if __name__=="__main__":
-#     uvicorn.run(app=app,host="localhost",port='8000')
